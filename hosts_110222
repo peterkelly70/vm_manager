@@ -1,0 +1,32 @@
+127.0.0.1	localhost
+127.0.0.1	Talesian
+
+# Network	
+192.168.0.10	Thoth
+192.168.0.11	Talesian
+192.168.0.12	Titania
+192.168.0.13    Kyoma
+# 192.168.0.14    
+192.168.0.15    Gandalf
+192.168.0.16	Merlin
+192.168.0.18	Freyja
+192.168.0.19	Mjolnir
+
+#VMS
+Value: 192.168.0.199   TEST
+Value: 192.168.0.199   Sauron
+192.168.0.125	www.example.com example.com
+192.168.0.125	www.example2.com example2.com
+
+
+# Cronus -0 Justin
+211.26.108.44	Cronus
+
+
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters

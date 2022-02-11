@@ -1,0 +1,65 @@
+#!/bin/bash
+# This starts the Specified  Virutal Machin
+# 
+
+# Env Variable
+VM="Sauron"
+SLEEP=5
+PING=1
+SharedPath="$HOME/vm/$VM"
+Started="${SharedPath}/Started"
+
+# start virtual machine
+RUNNING=$(VBoxManage list runningvms);
+# Only try to start if not running
+if [[ "${RUNNING}" == *"${VM}"* ]]; 
+then
+   echo  "${VM} already running!"
+else
+# if not Started
+  VBoxManage startvm "$VM" --type headless
+  echo "Removing Old Start File"
+  rm -f /VM_SHARED/${VM}/Started
+  echo "Waiting for boot to complete."
+  # Replace with check for start file in ~/VM_SHARED/${VM}/
+  while [ ! -f /VM_SHARED/${VM}/Started ]
+  do
+     sleep 0.2 
+  done
+  now=$(date +%d/%m/%y' '%H:%S);
+  echo "$VM Ready - ${now}";
+fi
+
+
+# Get ip of VM
+IP=$(VBoxManage guestproperty get "$VM" "/VirtualBox/GuestInfo/Net/0/V4/IP");
+IP=$(echo ${IP:7});
+echo "Network to VM detected on ${IP}"
+echo "Waiting for network"
+while ! ping -c1 ${IP} &>/dev/null; 
+do 
+   now=$(date +%d/%m/%y' '%H:%S);
+   echo "Ping Fail - ${now}"; 
+done ; 
+
+
+# Update Hosts file with Virtual Servers
+echo "Adding Virtual Servers to Hosts File"
+# Get Hosts file
+# Backit up
+cp hosts hosts_$(date +%d%m%y);
+for server in $(cat ~/VM_SHARED/${VM}/server.txt) ; do 
+  sed -i "/${server}/d" hosts;
+  sed -i "/^#VMS/a ${IP}   ${server}" hosts;
+  echo "     Added ${IP}:${server}";
+done
+# Return Modified Hosts Files
+cp hosts /etc/hosts;
+
+
+# Set up ssh tunnel for phpstorm and xdebug 
+#echo "Setting up ssh tunnel for phpstorm xdebug"
+#ssh -R 9000:localhost:9000 fortix
+
+# Connect to the server
+#echo "Connecting to Fortix"

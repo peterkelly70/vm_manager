@@ -30,7 +30,7 @@ else
   echo "Waiting for network"
   while ! ping -c1 ${IP} &>/dev/null; 
   do 
-    now=$(date +%d/%m/%y' '%H:%S);
+    now=$(date +%d/%m/%y' '%H:%M);
     echo "Ping Fail - ${now}"; 
     sleep 1s
   done ; 

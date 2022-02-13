@@ -12,17 +12,32 @@ Started="${SharedPath}/Started"
 # start virtual machine
 RUNNING=$(VBoxManage list runningvms);
 # Only try to start if not running
-if [[ "${RUNNING}" == *"${VM}"* ]]; 
+if [[ "$RUNNING" == *"$VM"* ]]; 
 then
-   echo  "${VM} already running!"
+   # Get ip of VM
+   IP=$(VBoxManage guestproperty get "$VM" "/VirtualBox/GuestInfo/Net/0/V4/IP");
+   IP=$(echo ${IP:7});
+   echo  "${VM} already running on ${Ip}!"
 else
 # if not Started
   VBoxManage startvm "$VM" --type headless
+  # Get ip of VM
   echo "Removing Old Start File"
-  rm -f /VM_SHARED/${VM}/Started
+  rm -f ~/VM_SHARED/${VM}/Started
+  IP=$(VBoxManage guestproperty get "$VM" "/VirtualBox/GuestInfo/Net/0/V4/IP");
+  IP=$(echo ${IP:7});
+  echo "Network to VM detected on ${IP}"
+  echo "Waiting for network"
+  while ! ping -c1 ${IP} &>/dev/null; 
+  do 
+    now=$(date +%d/%m/%y' '%H:%S);
+    echo "Ping Fail - ${now}"; 
+    sleep 1s
+  done ; 
+
   echo "Waiting for boot to complete."
   # Replace with check for start file in ~/VM_SHARED/${VM}/
-  while [ ! -f /VM_SHARED/${VM}/Started ]
+  while [ ! -f ~/VM_SHARED/${VM}/Started ]
   do
      sleep 0.2 
   done
@@ -31,16 +46,14 @@ else
 fi
 
 
-# Get ip of VM
-IP=$(VBoxManage guestproperty get "$VM" "/VirtualBox/GuestInfo/Net/0/V4/IP");
-IP=$(echo ${IP:7});
-echo "Network to VM detected on ${IP}"
-echo "Waiting for network"
-while ! ping -c1 ${IP} &>/dev/null; 
-do 
-   now=$(date +%d/%m/%y' '%H:%S);
-   echo "Ping Fail - ${now}"; 
-done ; 
+
+# echo "Network to VM detected on ${IP}"
+# echo "Waiting for network"
+# while ! ping -c1 ${IP} &>/dev/null; 
+# do 
+#    now=$(date +%d/%m/%y' '%H:%S);
+#    echo "Ping Fail - ${now}"; 
+# done ; 
 
 
 # Update Hosts file with Virtual Servers

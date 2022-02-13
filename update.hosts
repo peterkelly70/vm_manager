@@ -1,0 +1,21 @@
+#!/bin/bash
+# This starts the Specified  Virutal Machin
+# 
+
+# Env Variable
+VM="Sauron"
+IP=$(VBoxManage guestproperty get "$VM" "/VirtualBox/GuestInfo/Net/0/V4/IP");
+IP=$(echo ${IP:7});
+echo  "${VM} running on ${Ip}!"
+# Update Hosts file with Virtual Servers
+echo "Adding Virtual Servers to Hosts File"
+# Get Hosts file
+# Backit up
+cp hosts hosts_$(date +%d%m%y);
+for server in $(cat ~/VM_SHARED/${VM}/server.txt) ; do 
+  sed -i "/${server}/d" hosts;
+  sed -i "/^#VMS/a ${IP}   ${server}" hosts;
+  echo "     Added ${IP}:${server}";
+done
+# Return Modified Hosts Files
+cp hosts /etc/hosts;

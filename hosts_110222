@@ -13,10 +13,14 @@
 192.168.0.19	Mjolnir
 
 #VMS
-Value: 192.168.0.199   TEST
-Value: 192.168.0.199   Sauron
-192.168.0.125	www.example.com example.com
-192.168.0.125	www.example2.com example2.com
+192.168.0.199   todolist.computer-wizard.com.au
+192.168.0.199   example2.com
+192.168.0.199   example.com
+192.168.0.199   Sauron
+192.168.0.199   moodle.test.com
+192.168.0.199   merlin.moodle.edu.au
+192.168.0.199   mysite2.com
+192.168.0.199   TEST
 
 
 # Cronus -0 Justin

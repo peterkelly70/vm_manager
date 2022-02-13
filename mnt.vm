@@ -17,7 +17,7 @@ then
    # Get ip of VM
    IP=$(VBoxManage guestproperty get "$VM" "/VirtualBox/GuestInfo/Net/0/V4/IP");
    IP=$(echo ${IP:7});
-   echo  "${VM} already running on ${Ip}!"
+   echo  "${VM} already running on ${IP}!"
 else
 # if not Started
   VBoxManage startvm "$VM" --type headless

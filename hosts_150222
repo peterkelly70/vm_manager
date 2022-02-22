@@ -13,14 +13,12 @@
 192.168.0.19	Mjolnir
 
 #VMS
-192.168.0.100   mygram.com
-192.168.0.100   swh.sauron.edu.au
-192.168.0.100   ssi.sauron.com
-192.168.0.100   todolist.computer-wizard.com.au
-192.168.0.100   example2.com
-192.168.0.100   example.com
-192.168.0.100   Sauron
-192.168.0.100   moodle.test.com
+192.168.0.168   ssi.sauron.com
+192.168.0.168   todolist.computer-wizard.com.au
+192.168.0.168   example2.com
+192.168.0.168   example.com
+192.168.0.168   Sauron
+192.168.0.168   moodle.test.com
 192.168.0.199   merlin.moodle.edu.au
 192.168.0.199   mysite2.com
 192.168.0.199   TEST

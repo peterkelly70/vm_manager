@@ -19,11 +19,17 @@ then
    IP=$(echo ${IP:7});
    echo  "${VM} already running on ${IP}!"
 else
-# if not Started
+  # if not Started
   VBoxManage startvm "$VM" --type headless
-  # Get ip of VM
   echo "Removing Old Start File"
   rm -f ~/VM_SHARED/${VM}/Started
+  echo "Waiting for boot to complete."
+  # Replace with check for start file in ~/VM_SHARED/${VM}/
+  while [ ! -f ~/VM_SHARED/${VM}/Started ]
+  do
+     sleep 0.2 
+  done
+  # Get ip of VM
   IP=$(VBoxManage guestproperty get "$VM" "/VirtualBox/GuestInfo/Net/0/V4/IP");
   IP=$(echo ${IP:7});
   echo "Network to VM detected on ${IP}"
@@ -34,13 +40,7 @@ else
     echo "Ping Fail - ${now}"; 
     sleep 1s
   done ; 
-
-  echo "Waiting for boot to complete."
-  # Replace with check for start file in ~/VM_SHARED/${VM}/
-  while [ ! -f ~/VM_SHARED/${VM}/Started ]
-  do
-     sleep 0.2 
-  done
+ 
   now=$(date +%d/%m/%y' '%H:%S);
   echo "$VM Ready - ${now}";
 fi
